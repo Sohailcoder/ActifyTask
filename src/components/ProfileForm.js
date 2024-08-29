@@ -1,79 +1,35 @@
-import React, { useState } from 'react';
+import React from 'react';
+import { useForm } from 'react-hook-form';
+import Swal from 'sweetalert2';
 
 const ProfileForm = () => {
-  const [formData, setFormData] = useState({
-    firstName: '',
-    middleName: '',
-    lastName: '',
-    email: '',
-    phone: '',
-    address: '',
-    pinCode: '',
-    country: '',
-    state: '',
-    city: '',
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    reset,
+  } = useForm({
+    defaultValues: {
+      firstName: '',
+      middleName: '',
+      lastName: '',
+      email: '',
+      phone: '',
+      address: '',
+      pinCode: '',
+      country: '',
+      state: '',
+      city: '',
+    },
   });
 
-  const [errors, setErrors] = useState({});
-
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData({
-      ...formData,
-      [name]: value,
+  const onSubmit = (data) => {
+    Swal.fire({
+      title: 'Success',
+      text: 'Profile updated Successfully',
+      icon: 'success',
     });
-
-    setErrors((prevErrors) => ({
-      ...prevErrors,
-      [name]: '', 
-    }));
-  };
-
-  const validateForm = () => {
-    const newErrors = {};
-
-    if (!formData.firstName.trim()) {
-      newErrors.firstName = 'First Name is required';
-    }
-    if (!formData.lastName.trim()) {
-      newErrors.lastName = 'Last Name is required';
-    }
-    if (!formData.email.trim()) {
-      newErrors.email = 'Email is required';
-    }
-    if (!formData.phone.trim()) {
-      newErrors.phone = 'Phone number is required';
-    }
-    if (!formData.address.trim()) {
-      newErrors.address = 'Address is required';
-    }
-    if (!formData.pinCode.trim()) {
-      newErrors.pinCode = 'Pin Code is required';
-    }
-    if (!formData.country.trim()) {
-      newErrors.country = 'Country is required';
-    }
-    if (!formData.state.trim()) {
-      newErrors.state = 'State is required';
-    }
-    if (!formData.city.trim()) {
-      newErrors.city = 'City is required';
-    }
-
-    setErrors(newErrors);
-    console.log(newErrors);
-    return Object.keys(newErrors).length === 0;
-  };
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-
-    if (validateForm()) {
-      console.log('Form submitted successfully', formData);
-      // Here you can handle the form data, e.g., send it to the server.
-    } else {
-      console.log('Form validation failed');
-    }
+    reset();
   };
 
   return (
@@ -88,29 +44,25 @@ const ProfileForm = () => {
             </span>
           </p>
         </div>
-        <form onSubmit={handleSubmit} className="mt-6 space-y-4">
+        <form onSubmit={handleSubmit(onSubmit)} className="mt-6 space-y-4">
           <div className="grid grid-cols-3 gap-4">
             <div>
               <label className="block text-gray-700">First Name *</label>
               <input
                 type="text"
-                name="firstName"
-                value={formData.firstName}
-                onChange={handleChange}
+                {...register('firstName', { required: 'First Name is required' })}
                 placeholder="First Name"
                 className="w-full mt-1 p-2 border border-gray-300 rounded-lg"
               />
               {errors.firstName && (
-                <p className="text-red-500 text-sm mt-1">{errors.firstName}</p>
+                <p className="text-red-500 text-sm mt-1">{errors.firstName.message}</p>
               )}
             </div>
             <div>
               <label className="block text-gray-700">Middle Name</label>
               <input
                 type="text"
-                name="middleName"
-                value={formData.middleName}
-                onChange={handleChange}
+                {...register('middleName')}
                 placeholder="Middle Name"
                 className="w-full mt-1 p-2 border border-gray-300 rounded-lg"
               />
@@ -119,14 +71,12 @@ const ProfileForm = () => {
               <label className="block text-gray-700">Last Name *</label>
               <input
                 type="text"
-                name="lastName"
-                value={formData.lastName}
-                onChange={handleChange}
+                {...register('lastName', { required: 'Last Name is required' })}
                 placeholder="Last Name"
                 className="w-full mt-1 p-2 border border-gray-300 rounded-lg"
               />
               {errors.lastName && (
-                <p className="text-red-500 text-sm mt-1">{errors.lastName}</p>
+                <p className="text-red-500 text-sm mt-1">{errors.lastName.message}</p>
               )}
             </div>
           </div>
@@ -135,28 +85,24 @@ const ProfileForm = () => {
               <label className="block text-gray-700">Email *</label>
               <input
                 type="email"
-                name="email"
-                value={formData.email}
-                onChange={handleChange}
+                {...register('email', { required: 'Email is required' })}
                 placeholder="Email"
                 className="w-full mt-1 p-2 border border-gray-300 rounded-lg"
               />
               {errors.email && (
-                <p className="text-red-500 text-sm mt-1">{errors.email}</p>
+                <p className="text-red-500 text-sm mt-1">{errors.email.message}</p>
               )}
             </div>
             <div>
               <label className="block text-gray-700">Phone *</label>
               <input
                 type="tel"
-                name="phone"
-                value={formData.phone}
-                onChange={handleChange}
+                {...register('phone', { required: 'Phone number is required' })}
                 placeholder="Phone"
                 className="w-full mt-1 p-2 border border-gray-300 rounded-lg"
               />
               {errors.phone && (
-                <p className="text-red-500 text-sm mt-1">{errors.phone}</p>
+                <p className="text-red-500 text-sm mt-1">{errors.phone.message}</p>
               )}
             </div>
           </div>
@@ -164,14 +110,12 @@ const ProfileForm = () => {
             <label className="block text-gray-700">Address *</label>
             <input
               type="text"
-              name="address"
-              value={formData.address}
-              onChange={handleChange}
+              {...register('address', { required: 'Address is required' })}
               placeholder="Type your address here."
               className="w-full mt-1 p-2 border border-gray-300 rounded-lg"
             />
             {errors.address && (
-              <p className="text-red-500 text-sm mt-1">{errors.address}</p>
+              <p className="text-red-500 text-sm mt-1">{errors.address.message}</p>
             )}
           </div>
           <div className="grid grid-cols-4 gap-4">
@@ -179,56 +123,48 @@ const ProfileForm = () => {
               <label className="block text-gray-700">Pin Code *</label>
               <input
                 type="text"
-                name="pinCode"
-                value={formData.pinCode}
-                onChange={handleChange}
+                {...register('pinCode', { required: 'Pin Code is required' })}
                 placeholder="Pin Code"
                 className="w-full mt-1 p-2 border border-gray-300 rounded-lg"
               />
               {errors.pinCode && (
-                <p className="text-red-500 text-sm mt-1">{errors.pinCode}</p>
+                <p className="text-red-500 text-sm mt-1">{errors.pinCode.message}</p>
               )}
             </div>
             <div>
               <label className="block text-gray-700">Country *</label>
               <input
                 type="text"
-                name="country"
-                value={formData.country}
-                onChange={handleChange}
+                {...register('country', { required: 'Country is required' })}
                 placeholder="Country"
                 className="w-full mt-1 p-2 border border-gray-300 rounded-lg"
               />
               {errors.country && (
-                <p className="text-red-500 text-sm mt-1">{errors.country}</p>
+                <p className="text-red-500 text-sm mt-1">{errors.country.message}</p>
               )}
             </div>
             <div>
               <label className="block text-gray-700">State *</label>
               <input
                 type="text"
-                name="state"
-                value={formData.state}
-                onChange={handleChange}
+                {...register('state', { required: 'State is required' })}
                 placeholder="State"
                 className="w-full mt-1 p-2 border border-gray-300 rounded-lg"
               />
               {errors.state && (
-                <p className="text-red-500 text-sm mt-1">{errors.state}</p>
+                <p className="text-red-500 text-sm mt-1">{errors.state.message}</p>
               )}
             </div>
             <div>
               <label className="block text-gray-700">City *</label>
               <input
                 type="text"
-                name="city"
-                value={formData.city}
-                onChange={handleChange}
+                {...register('city', { required: 'City is required' })}
                 placeholder="City"
                 className="w-full mt-1 p-2 border border-gray-300 rounded-lg"
               />
               {errors.city && (
-                <p className="text-red-500 text-sm mt-1">{errors.city}</p>
+                <p className="text-red-500 text-sm mt-1">{errors.city.message}</p>
               )}
             </div>
           </div>

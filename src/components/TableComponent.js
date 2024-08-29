@@ -6,6 +6,7 @@ import * as XLSX from 'xlsx';
 import { FaArrowRight } from "react-icons/fa";
 import { FaArrowLeft } from "react-icons/fa";
 import { RiFileExcel2Line } from "react-icons/ri";
+import Swal from 'sweetalert2';
 
 // Dummy Data
 const data = [
@@ -87,6 +88,11 @@ const TableComponent = () => {
     const workbook = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(workbook, worksheet, "Sheet1");
     XLSX.writeFile(workbook, "Data.xlsx");
+    Swal.fire({
+      title: 'Success',
+      text: 'File downloaded',
+      icon: 'success',
+    });
   };
 
   return (
@@ -160,7 +166,7 @@ const TableComponent = () => {
           </button>
         </div>
 
-
+          {/* {end pagination part wala} */}
         <select
           value={pageSize}
           onChange={e => setPageSize(Number(e.target.value))}

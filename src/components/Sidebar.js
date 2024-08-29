@@ -15,7 +15,7 @@ const sidebarItems = [
     title: 'Dashboard',
     icon: <AiFillDashboard />,
     path: '/',
-    items: [], // No sub-items for Dashboard
+    items: [],
   },
   {
     title: 'Account',
@@ -31,19 +31,19 @@ const sidebarItems = [
     title: 'Contact',
     icon: <FiPhoneCall />,
     path: '/contact',
-    items: [], // No sub-items for Contact
+    items: [], 
   },
   {
     title: 'Feedback',
     icon: <RiFeedbackFill />,
     path: '/feedback',
-    items: [], // No sub-items for Feedback
+    items: [],
   },
   {
     title: 'Profile',
     icon: <CgProfile />,
     path: '/Profile',
-    items: [], // No sub-items for Feedback
+    items: [],
   },
 ];
 
